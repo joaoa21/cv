@@ -15,12 +15,10 @@
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    /* paleta — espelho do site */
     --bg-dark: #080a0f;
     --bg-dark-2: #0d1017;
     --border-dark: rgba(255, 255, 255, 0.06);
 
-    /* paleta da folha (CV em si) */
     --paper: #ffffff;
     --ink: #0d1017;
     --ink-soft: #3a3f4a;
@@ -29,10 +27,9 @@
     --rule: #e4e4e7;
     --panel: #f6f7f9;
 
-    /* acentos — ciano do site */
-    --accent: #00a9cc;          /* ciano um pouco mais escuro pro contraste no branco */
+    --accent: #00a9cc;
     --accent-deep: #007d96;
-    --accent-bright: #00d4ff;   /* ciano puro, usado só em fundo dark */
+    --accent-bright: #00d4ff;
 
     --font-display: "Bebas Neue", "Impact", sans-serif;
     --font-sans: "Outfit", "Inter", -apple-system, "Segoe UI", sans-serif;
@@ -61,7 +58,6 @@
     position: relative;
   }
 
-  /* grain sutil no fundo dark, igual ao site */
   body::before {
     content: '';
     position: fixed;
@@ -73,7 +69,6 @@
     background-size: 180px;
   }
 
-  /* glow ciano sutil ao redor da folha */
   body::after {
     content: '';
     position: fixed;
@@ -85,9 +80,7 @@
     pointer-events: none;
   }
 
-  /* ====================================================================
-     PAGE (a folha branca)
-  ==================================================================== */
+  /* ============================= PAGE ============================= */
   .page {
     width: 210mm;
     max-width: 100%;
@@ -99,29 +92,49 @@
     z-index: 1;
   }
 
-  /* ====================================================================
-     HEADER
-  ==================================================================== */
+  /* ============================= HEADER ============================= */
   .header {
     padding-bottom: 7mm;
     border-bottom: 1px solid var(--rule);
     margin-bottom: 7mm;
     position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 7mm;
   }
 
   .header::before {
     content: "";
     position: absolute;
     left: -4mm;
-    top: 0;
+    top: 6pt;
     width: 4px;
-    height: 64pt;
+    height: 72pt;
     background: var(--accent);
+  }
+
+  /* foto */
+  .profile-photo {
+    flex-shrink: 0;
+    width: 72pt;
+    height: 72pt;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--panel);
+    border: 2px solid var(--paper);
+    box-shadow: 0 0 0 1.5px var(--accent);
+    margin-top: 6pt;
+  }
+
+  /* bloco com nome + tagline + contato */
+  .header-text {
+    flex: 1;
+    min-width: 0;
   }
 
   .name {
     font-family: var(--font-display);
-    font-size: 56pt;
+    font-size: 52pt;
     font-weight: 400;
     line-height: 0.92;
     letter-spacing: 0.02em;
@@ -129,9 +142,7 @@
     margin-bottom: 6pt;
   }
 
-  .name .accent {
-    color: var(--accent);
-  }
+  .name .accent { color: var(--accent); }
 
   .tagline {
     font-family: var(--font-mono);
@@ -143,14 +154,16 @@
     margin-bottom: 12pt;
     display: flex;
     align-items: center;
-    gap: 12pt;
+    flex-wrap: wrap;
+    gap: 6pt 10pt;
   }
 
   .tagline::before {
     content: "";
-    width: 28pt;
+    width: 24pt;
     height: 1px;
     background: var(--accent);
+    flex-shrink: 0;
   }
 
   .tagline .dot {
@@ -162,7 +175,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 4pt 14pt;
-    font-family: var(--font-sans);
+    font-family: var(--font-sans2);
     font-size: 9.5pt;
     color: var(--ink-mid);
   }
@@ -179,13 +192,61 @@
     border-bottom-color: var(--accent);
   }
 
-  .contact-row .sep {
-    color: var(--ink-faded);
+  .contact-row .sep { color: var(--ink-faded); }
+
+  /* botão portfólio (visível só na tela, some no print) */
+  .portfolio-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8pt;
+    margin-top: 14pt;
+    padding: 7pt 14pt;
+    font-family: var(--font-mono);
+    font-size: 9pt;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-deep);
+    text-decoration: none;
+    border: 1px solid var(--accent);
+    background: transparent;
+    transition: background 0.25s ease, color 0.6s ease, transform 0.25s ease;
+    position: relative;
+    overflow: hidden;
   }
 
-  /* ====================================================================
-     HIGHLIGHTS
-  ==================================================================== */
+  .portfolio-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    transform: translateX(-101%);
+    transition: transform .5s cubic-bezier(.4,0,.2,1);
+    z-index: 0;
+  }
+
+  .portfolio-btn:hover {
+    color: white;
+  }
+
+  .portfolio-btn:hover::before {
+    transform: translateX(0);
+  }
+
+  .portfolio-btn span {
+    position: relative;
+    z-index: 1;
+  }
+
+  .portfolio-btn .arrow {
+    transition: transform 0.25s ease;
+  }
+
+  .portfolio-btn:hover .arrow {
+    transform: translateX(3px);
+  }
+
+  /* ============================= HIGHLIGHTS ============================= */
   .highlights {
     background: var(--panel);
     border-left: 3px solid var(--accent);
@@ -245,9 +306,7 @@
     font-weight: 600;
   }
 
-  /* ====================================================================
-     SECTION TITLES
-  ==================================================================== */
+  /* ============================= SECTION TITLES ============================= */
   .section { margin-bottom: 7mm; }
 
   .section-title {
@@ -272,9 +331,7 @@
     font-weight: 400;
   }
 
-  /* ====================================================================
-     SOBRE
-  ==================================================================== */
+  /* ============================= SOBRE ============================= */
   .summary {
     font-size: 10.5pt;
     line-height: 1.6;
@@ -286,9 +343,7 @@
     font-weight: 600;
   }
 
-  /* ====================================================================
-     EXPERIÊNCIA / PROJETOS
-  ==================================================================== */
+  /* ============================= JOBS / PROJECTS ============================= */
   .job, .project {
     margin-bottom: 5.5mm;
     page-break-inside: avoid;
@@ -335,10 +390,7 @@
     display: block;
   }
 
-  .job-bullets {
-    list-style: none;
-    padding-left: 0;
-  }
+  .job-bullets { list-style: none; padding-left: 0; }
 
   .job-bullets li {
     position: relative;
@@ -359,17 +411,9 @@
     background: var(--accent);
   }
 
-  .job-bullets strong {
-    color: var(--ink);
-    font-weight: 600;
-  }
+  .job-bullets strong { color: var(--ink); font-weight: 600; }
+  .job-bullets .metric { color: var(--accent-deep); font-weight: 600; }
 
-  .job-bullets .metric {
-    color: var(--accent-deep);
-    font-weight: 600;
-  }
-
-  /* Projetos */
   .project-head {
     display: flex;
     align-items: baseline;
@@ -412,9 +456,7 @@
     font-weight: 400;
   }
 
-  /* ====================================================================
-     COMPETÊNCIAS
-  ==================================================================== */
+  /* ============================= SKILLS ============================= */
   .skills-list {
     list-style: none;
     display: grid;
@@ -439,9 +481,7 @@
     margin-bottom: 0.5mm;
   }
 
-  /* ====================================================================
-     FORMAÇÃO + IDIOMAS
-  ==================================================================== */
+  /* ============================= FORMAÇÃO + IDIOMAS ============================= */
   .bottom-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -492,10 +532,7 @@
 
   .lang-list li:last-child { border-bottom: none; }
 
-  .lang-name {
-    color: var(--ink);
-    font-weight: 500;
-  }
+  .lang-name { color: var(--ink); font-weight: 500; }
 
   .lang-level {
     color: var(--ink-faded);
@@ -505,37 +542,119 @@
     text-transform: uppercase;
   }
 
-  /* ====================================================================
-     MOBILE
-  ==================================================================== */
+  /* ============================= MOBILE ============================= */
   @media (max-width: 768px) {
     body { padding: 0; background: var(--paper); }
     body::before, body::after { display: none; }
+
     .page {
       width: 100%;
       box-shadow: none;
-      padding: 30px 22px;
+      padding: 28px 22px;
     }
-    .header::before { left: -22px; height: 48pt; }
-    .name { font-size: 44pt; }
-    .tagline { font-size: 8.5pt; letter-spacing: 0.14em; }
-    .contact-row { gap: 2pt 10pt; font-size: 9pt; }
+
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+
+    .header::before { left: -22px; height: 42pt; }
+
+    .profile-photo {
+      width: 64pt;
+      height: 64pt;
+      margin-top: 0;
+    }
+
+    .name {
+      font-size: clamp(36pt, 11vw, 48pt);
+      letter-spacing: 0.015em;
+    }
+
+    .tagline {
+      font-size: 8pt;
+      letter-spacing: 0.12em;
+      gap: 5pt 8pt;
+    }
+
+    .tagline::before { width: 20pt; }
+
+    .contact-row {
+      gap: 2pt 10pt;
+      font-size: 9pt;
+    }
+
+    .contact-row .sep { display: none; }
+
+    .contact-row > * { width: auto; }
+
+    .highlights {
+      padding: 16px 18px;
+      margin-bottom: 20px;
+    }
+
+    .highlights-list li { font-size: 9.5pt; }
+
+    .job-role { font-size: 16pt; }
+    .job-period { font-size: 8.5pt; }
+    .job-bullets li { font-size: 9.5pt; }
+
+    .project-name { font-size: 14pt; }
+
     .bottom-grid { grid-template-columns: 1fr; gap: 5mm; }
+
+    .section { margin-bottom: 5mm; }
+    .section-title { font-size: 8.5pt; letter-spacing: 0.18em; }
   }
 
-  /* ====================================================================
-     PRINT (Ctrl+P / Cmd+P)
-     — força fundo branco, tira moldura dark, mantém legibilidade
-  ==================================================================== */
+  @media (max-width: 420px) {
+    .page { padding: 22px 18px; }
+    .name { font-size: clamp(32pt, 12vw, 42pt); }
+    .tagline { font-size: 7.5pt; letter-spacing: 0.1em; }
+    .tagline::before { display: none; }
+    .profile-photo { width: 56pt; height: 56pt; }
+    .header::before { left: -18px; }
+  }
+
+  /* ============================= PRINT ============================= */
   @media print {
     @page { size: A4; margin: 14mm 16mm; }
     html, body { background: white; padding: 0; margin: 0; }
     body::before, body::after { display: none; }
     .page { box-shadow: none; width: 100%; padding: 0; }
     a { color: inherit; text-decoration: none; }
+    .header { flex-direction: row; }
     .header::before { left: -6mm; }
+    .profile-photo { width: 72pt; height: 72pt; }
 
-    /* garantir que cores acentuadas mantenham fidelidade ao imprimir */
+    /* botão portfólio no print: vira link de texto simples, alinhado com os outros contatos */
+    .portfolio-btn {
+      display: inline;
+      padding: 0;
+      margin: 0;
+      border: none;
+      background: transparent;
+      font-family: var(--font-sans2);
+      font-size: 9.5pt;
+      font-weight: 400;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--ink-mid);
+    }
+    .portfolio-btn::before { display: none; }
+    .portfolio-btn .arrow { display: none; }
+    .portfolio-btn span:first-child::before {
+      content: " · ";
+      color: var(--ink-faded);
+    }
+    .portfolio-btn span:first-child::after {
+      content: ": joaoa21.github.io/portfolio";
+      color: var(--ink-mid);
+    }
+
     * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 </style>
@@ -547,31 +666,50 @@
 
   <!-- ==================== HEADER ==================== -->
   <header class="header">
-    <h1 class="name">JOÃO ALBERTO<span class="accent">.</span></h1>
-    <div class="tagline">
-      Web Designer
-      <span class="dot">/</span>
-      iGaming
-      <span class="dot">/</span>
-      CRM
-      <span class="dot">/</span>
-      Gamificação
-    </div>
 
-    <div class="contact-row">
-      <span>Recife, PE</span>
-      <span class="sep">·</span>
-      <a href="mailto:joaoams6@gmail.com">joaoams6@gmail.com</a>
-      <span class="sep">·</span>
-      <a href="tel:+5581988780144">(81) 98878-0144</a>
-      <span class="sep">·</span>
-      <a href="https://linkedin.com/in/joaoa210" target="_blank" rel="noopener">linkedin.com/in/joaoa210</a>
+    <!--
+      FOTO DE PERFIL
+      ==============
+      Troque o src abaixo pela sua foto:
+      — Hospede a imagem no mesmo repositório do CV (ex: foto.jpg na raiz)
+      — Use proporção 1:1 (quadrada) de pelo menos 300x300px
+      — Pode ser PNG, JPG ou WebP
+      — Se não quiser foto, é só apagar a tag <img> inteira
+    -->
+    <img class="profile-photo" src="assets/foto.png" alt="João Alberto"
+         onerror="this.style.display='none'">
 
-      <!-- ↓ Quando portfólio estiver no ar, descomente ↓ -->
+    <div class="header-text">
+      <h1 class="name">JOÃO ALBERTO<span class="accent">.</span></h1>
+      <div class="tagline">
+        Web Designer
+        <span class="dot">/</span>
+        iGaming
+        <span class="dot">/</span>
+        CRM
+        <span class="dot">/</span>
+        Gamificação
+      </div>
+
+      <div class="contact-row">
+        <span>Recife, PE</span>
+        <span class="sep">·</span>
+        <a href="mailto:joaoams6@gmail.com">joaoams6@gmail.com</a>
+        <span class="sep">·</span>
+        <a href="tel:+5581988780144">(81) 98878-0144</a>
+        <span class="sep">·</span>
+        <a href="https://linkedin.com/in/joaoa210" target="_blank" rel="noopener">linkedin.com/in/joaoa210</a>
+      </div>
+
       <!--
-      <span class="sep">·</span>
-      <a href="https://joaoa21.github.io/portfolio" target="_blank" rel="noopener">portfólio</a>
+        BOTÃO PORTFÓLIO
+        Troque o href pelo link do portfólio quando estiver no ar.
+        Ex: https://joaoa21.github.io/portfolio
       -->
+      <a class="portfolio-btn" href="../portfolio/" target="_blank" rel="noopener">
+        <span>Acessar Portfólio</span>
+        <span class="arrow">→</span>
+      </a>
     </div>
   </header>
 
